@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fit.fitsys.mapper.MoneyMapper">
+  <resultMap id="BaseResultMap" type="com.fit.fitsys.entity.Money">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="coach_id" jdbcType="INTEGER" property="coachId" />
+    <result column="basic" jdbcType="DOUBLE" property="basic" />
+    <result column="bonus" jdbcType="DOUBLE" property="bonus" />
+    <result column="real" jdbcType="DOUBLE" property="real" />
+    <result column="time" jdbcType="DATE" property="time" />
+  </resultMap>
+</mapper>

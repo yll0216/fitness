@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fit.fitsys.mapper.LockerMapper">
+  <resultMap id="BaseResultMap" type="com.fit.fitsys.entity.Locker">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="member_id" jdbcType="INTEGER" property="memberId" />
+    <result column="size" jdbcType="VARCHAR" property="size" />
+    <result column="leave_time" jdbcType="DATE" property="leaveTime" />
+    <result column="get_time" jdbcType="DATE" property="getTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+</mapper>
