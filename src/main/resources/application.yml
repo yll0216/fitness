@@ -6,9 +6,6 @@ spring:
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver
-  thymeleaf:
-    prefix: classpath:/templates/
-    suffix: .html
 
 mybatis:
   type-aliases-package: com.fit.fitsys.entity
