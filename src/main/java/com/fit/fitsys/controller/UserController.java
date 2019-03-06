@@ -19,6 +19,11 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @RequestMapping(value = "login", method = RequestMethod.GET)
+    public String login(){
+        return "login";
+    }
+
     @RequestMapping(value = "add", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> add(@RequestBody User user){
