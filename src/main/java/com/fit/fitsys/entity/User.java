@@ -18,7 +18,7 @@ public class User {
     /**
      * 密码
      */
-    transient private String password;
+    private String password;
 
     /**
      * 角色

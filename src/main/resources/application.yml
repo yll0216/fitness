@@ -6,6 +6,18 @@ spring:
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver
+  thymeleaf:
+    suffix: .html
+    prefix: classpath:/templates/
+    cache: false # 开发时关闭缓存,不然没法看到实时页面
+    mode: LEGACYHTML5 # 用非严格的 HTML
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+  mvc:
+    favicon:
+      enabled: false
+
 
 mybatis:
   type-aliases-package: com.fit.fitsys.entity
