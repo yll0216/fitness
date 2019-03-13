@@ -1,6 +1,7 @@
 package com.fit.fitsys.controller;
 
-import com.fit.fitsys.entity.User;
+import com.fit.fitsys.entity.TbUser;
+import com.fit.fitsys.entity.TbUser;
 import com.fit.fitsys.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
@@ -30,42 +32,45 @@ public class LoginController {
      * @return
      */
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    public String login(@ModelAttribute User user, RedirectAttributes redirectAttributes) {
+    @ResponseBody
+    public Map<String,Object> login(@ModelAttribute TbUser user, RedirectAttributes redirectAttributes) {
         Map<String, Object> result = new HashMap<>();
         if (StringUtils.isBlank(user.getUsername())) {
-            redirectAttributes.addFlashAttribute("errorMsg", "用户名不能为空");
-            return "redirect:/";
+            result.put("errorMsg", "用户名不能为空");
+            return result;
         }
         if (StringUtils.isBlank(user.getPassword())) {
-            redirectAttributes.addFlashAttribute("errorMsg", "密码不能为空");
-            return "redirect:/";
+            result.put("errorMsg", "密码不能为空");
+            return result;
         }
         if (StringUtils.isBlank(user.getRole())) {
-            redirectAttributes.addFlashAttribute("errorMsg", "角色不能为空");
-            return "redirect:/";
+            result.put("errorMsg", "角色不能为空");
+            return result;
         }
 
-        User dbUser = userService.findByUsername(user.getUsername());
+        TbUser dbUser = userService.findByUsername(user.getUsername());
         if (dbUser !=null && dbUser.getPassword().equals(user.getPassword()) && dbUser.getRole().equals(user.getRole())){
             dbUser.setPassword("");
             session.setAttribute("userInfo",dbUser);
-            if ("管理员".equals(user.getRole())){
-                return "redirect:/admin";
+            if (dbUser.getRole().equals("管理员")){
+                result.put("url","/admin");
             }
-            if ("教练".equals(user.getRole())){
-                return "redirect:/coach";
+            if (dbUser.getRole().equals("教练")){
+                result.put("url","/coach");
             }
-            if ("会员".equals(user.getRole())){
-                return "redirect:/member";
+            if (dbUser.getRole().equals("会员")){
+                result.put("url","/member");
             }
+            result.put("success",true);
+            return result;
         }
-        redirectAttributes.addFlashAttribute("errorMsg", "用户名或密码错误");
-        return "redirect:/";
+        result.put("errorMsg","用户名或密码错误");
+        return result;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String toIndex() {
-        return "index";
+        return "login";
     }
 
     /**

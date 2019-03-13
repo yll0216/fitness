@@ -1,6 +1,7 @@
 package com.fit.fitsys.controller;
 
-import com.fit.fitsys.entity.User;
+import com.fit.fitsys.entity.TbUser;
+import com.fit.fitsys.entity.TbUser;
 import com.fit.fitsys.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +25,14 @@ public class UserController {
     @Autowired
     private HttpSession session;
 
+    @RequestMapping(value = "modifyPass",method = RequestMethod.GET)
+    public String modifyPassword(){
+        return "modifyPassword";
+    }
+
     @RequestMapping(value = "add", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> add(@RequestBody User user){
+    public Map<String, Object> add(@RequestBody TbUser user){
         Map<String, Object> result = new HashMap<>();
         int count = userService.add(user);
         if (count == 1){
@@ -37,17 +43,26 @@ public class UserController {
         return result;
     }
 
-    @RequestMapping(value = "modify-password", method = RequestMethod.GET)
+    @RequestMapping(value = "modify", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> modifyPassword(String password){
+    public Map<String, Object> modifyPassword(String password,String rePassword){
         Map<String, Object> result = new HashMap<>();
         if (StringUtils.isBlank(password)){
             result.put("errorMsg","密码不能为空");
             return result;
         }
+        if (StringUtils.isBlank(rePassword)){
+            result.put("errorMsg","确认密码不能为空");
+            return result;
+        }
+        System.out.println(password.equals(rePassword));
+        if (!password.equals(rePassword)){
+            result.put("errorMsg","两次密码不一致");
+            return result;
+        }
 
-        User user = new User();
-        User userInfo = (User) session.getAttribute("userInfo");
+        TbUser user = new TbUser();
+        TbUser userInfo = (TbUser) session.getAttribute("userInfo");
         user.setId(userInfo.getId());
         user.setPassword(password);
         int count = userService.modifyPassword(user);
@@ -63,7 +78,7 @@ public class UserController {
     @ResponseBody
     public Map<String, Object> findByUsername(String username){
         Map<String, Object> result = new HashMap<>();
-        User user = userService.findByUsername(username);
+        TbUser user = userService.findByUsername(username);
         if (user == null){
             result.put("msg","用户不存在");
             return result;

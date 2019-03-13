@@ -1,6 +1,6 @@
 package com.fit.fitsys.interceptor;
 
-import com.fit.fitsys.entity.User;
+import com.fit.fitsys.entity.TbUser;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -17,7 +17,7 @@ public class MyInterceptor implements HandlerInterceptor {
     //在Controller执行之前调用，如果返回false，controller不执行
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        User user = (User) request.getSession().getAttribute("userInfo");
+        TbUser user = (TbUser) request.getSession().getAttribute("userInfo");
         if (user == null){
             response.sendRedirect("/");
             return false;
@@ -27,11 +27,11 @@ public class MyInterceptor implements HandlerInterceptor {
 
     //controller执行之后，且页面渲染之前调用
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
     }
 
     //页面渲染之后调用，一般用于资源清理操作
     @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
     }
 }
